@@ -2,9 +2,11 @@ import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
+import { useMediaQuery } from "react-responsive";
 
 function App() {
   const [file, setFile] = useState<string | undefined>(undefined);
+  const isDesktop = useMediaQuery({ minWidth: 1024 });
 
   function handleChange(e) {
     console.log(e.target.files[0]);
@@ -21,10 +23,21 @@ function App() {
           onChange={handleChange}
           id="file-input"
         />
-        <label htmlFor="file-input" tabIndex={0}>
+        <label
+          htmlFor="file-input"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              const fileInput = document.getElementById(
+                "file-input"
+              ) as HTMLInputElement;
+              fileInput.click();
+            }
+          }}
+        >
           Upload photo
         </label>
-        <button>Take photo</button>
+        {isDesktop && <button>Take photo with webcam</button>}
         {file && <img src={file} alt="Uploaded image" />}
       </div>
       <div className="footer-parent">

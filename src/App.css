@@ -5,17 +5,23 @@
   text-align: center;
 }
 
-.logo {
-  height: 3em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+body {
+  display: flex;
+  flex-direction: column;
+  @media (min-width: 1024px) {
+    justify-content: center;
+  }
+  gap: 2rem;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+
+img {
+  height: 30rem;
+  padding: 2rem;
 }
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+
+label {
+  font-weight: 500;
+  box-sizing: border-box;
 }
 
 .photo-buttons {
@@ -32,16 +38,7 @@
   padding: 1rem 2rem;
   background-color: #646cff;
   border-radius: 0.5rem;
-}
-
-img {
-  height: 30rem;
-  padding: 2rem;
-}
-
-label {
-  font-weight: 500;
-  box-sizing: border-box;
+  color: white;
 }
 
 #file-input {
@@ -57,5 +54,17 @@ label {
   color: #888;
   position: absolute;
   bottom: 1em;
-  /* width: 100%; */
+}
+
+.logo {
+  height: 3em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
 }
