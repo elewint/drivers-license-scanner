@@ -4,16 +4,28 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [file, setFile] = useState<string | undefined>(undefined);
+
+  function handleChange(e) {
+    console.log(e.target.files[0]);
+    setFile(URL.createObjectURL(e.target.files[0]));
+  }
 
   return (
     <>
       <h1>Driver's License Scanner</h1>
       <div className="photo-buttons">
-        <button>Upload photo</button>
-        <button onClick={() => setCount((count) => count + 1)}>
-          Take photo {count}
-        </button>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleChange}
+          id="file-input"
+        />
+        <label htmlFor="file-input" tabIndex={0}>
+          Upload photo
+        </label>
+        <button>Take photo</button>
+        {file && <img src={file} alt="Uploaded image" />}
       </div>
       <div className="footer-parent">
         <div className="footer">
