@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./app.css";
 import { useMediaQuery } from "react-responsive";
 import Webcam from "./components/features/webcam";
+import OpenCVTest from "./components/features/opencv-test";
 
 function App() {
   const [file, setFile] = useState<string | undefined>(undefined);
@@ -9,12 +10,15 @@ function App() {
 
   const isDesktop = useMediaQuery({ minWidth: 1024 });
 
-  function handleChange(e) {
-    setFile(URL.createObjectURL(e.target.files[0]));
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    if (e.target.files && e.target.files.length > 0) {
+      setFile(URL.createObjectURL(e.target.files[0]));
+    }
   }
 
   return (
     <>
+      <OpenCVTest></OpenCVTest>
       <h1>Driver's License Scanner 📸 🪪</h1>
       <div className="photo-buttons">
         <input

@@ -8,10 +8,10 @@ import { Toaster } from "react-hot-toast";
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <App />
-    <Footer />
     <Toaster
       position="bottom-center"
       toastOptions={{ style: { fontSize: "1.2rem" } }}
     />
+    <Footer />
   </React.StrictMode>
 );
