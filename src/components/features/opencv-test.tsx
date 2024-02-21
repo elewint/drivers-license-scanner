@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
-import testImage from "/1_CA.jpeg";
+import { useEffect, useState, useRef } from "react";
 import cv from "@techstark/opencv-js";
 import ImageSelector from "../common/image-selector";
+import Tesseract from "tesseract.js";
 
 const OpenCVTest = () => {
   const [isCvReady, setCvReady] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
+
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const handleImageChange = (event) => {
     setSelectedImage(event.target.value);
@@ -18,29 +20,6 @@ const OpenCVTest = () => {
       setCvReady(true);
     };
   }, []);
-
-  const convertToGrayscale = () => {
-    if (!selectedImage) {
-      alert("Please select a license first.");
-      return;
-    }
-    if (isCvReady) {
-      // Create an OpenCV image from an HTML element
-      let imgElement = document.getElementById("imageSrc");
-      let src = cv.imread(imgElement);
-      let dst = new cv.Mat();
-
-      // Convert the image to grayscale
-      cv.cvtColor(src, dst, cv.COLOR_RGBA2GRAY, 0);
-
-      // Display the processed image
-      cv.imshow("canvasOutput", dst);
-
-      // Clean up
-      src.delete();
-      dst.delete();
-    }
-  };
 
   const performEdgeDetection = () => {
     if (!selectedImage) {
@@ -84,6 +63,26 @@ const OpenCVTest = () => {
     edges.delete();
   };
 
+  const performOCR = () => {
+    if (canvasRef.current) {
+      // Convert the canvas to a data URL
+      const canvasDataURL = canvasRef.current.toDataURL("image/png");
+
+      // Run Tesseract OCR on the data URL
+      Tesseract.recognize(canvasDataURL, "eng", {
+        tessedit_pageseg_mode: 11, // Use the appropriate PSM mode here
+
+        logger: (m) => console.log(m),
+      })
+        .then(({ data: { text } }) => {
+          console.log(text); // Here's your recognized text
+        })
+        .catch((error) => {
+          console.error("OCR Error:", error);
+        });
+    }
+  };
+
   return (
     <div
       style={{
@@ -115,7 +114,18 @@ const OpenCVTest = () => {
           >
             Canny Edge
           </button>
-          <canvas id="canvasOutput"></canvas>
+          <button
+            style={{
+              backgroundColor: "blue",
+              width: "500px",
+              height: "100px",
+              marginBottom: "1em",
+            }}
+            onClick={performOCR}
+          >
+            Run OCR
+          </button>
+          <canvas id="canvasOutput" ref={canvasRef}></canvas>
         </>
       ) : (
         <p>Loading OpenCV...</p>
