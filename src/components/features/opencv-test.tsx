@@ -70,12 +70,31 @@ const OpenCVTest = () => {
 
       // Run Tesseract OCR on the data URL
       Tesseract.recognize(canvasDataURL, "eng", {
-        tessedit_pageseg_mode: 11, // Use the appropriate PSM mode here
-
+        tessedit_pageseg_mode: 6, // Use the appropriate PSM mode here
+        oem: 1,
         logger: (m) => console.log(m),
       })
-        .then(({ data: { text } }) => {
+        .then(({ data: { text, lines, words } }) => {
           console.log(text); // Here's your recognized text
+
+          // Draw boxes around the text areas
+          const ctx = canvasRef.current.getContext("2d");
+          ctx.strokeStyle = "red";
+          ctx.lineWidth = 2;
+          ctx.font = "16px Arial";
+          ctx.fillStyle = "red";
+
+          words.forEach((word) => {
+            const { x0, y0, x1, y1 } = word.bbox;
+            ctx.beginPath();
+            ctx.rect(x0, y0, x1 - x0, y1 - y0);
+            ctx.stroke();
+
+            // Display the detected word
+            const detectedWord = word.text;
+            const textWidth = ctx.measureText(detectedWord).width;
+            ctx.fillText(detectedWord, x0, y1 + 16);
+          });
         })
         .catch((error) => {
           console.error("OCR Error:", error);
