@@ -1,11 +1,10 @@
 import React from "react";
 
-// Define an interface for the component props
-interface ImageSelectorProps {
+type ImageSelectorProps = {
   onImageChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
-}
+};
 
-const ImageSelector: React.FC<ImageSelectorProps> = ({ onImageChange }) => {
+export default function ImageSelector({ onImageChange }: ImageSelectorProps) {
   return (
     <select
       onChange={onImageChange}
@@ -17,6 +16,4 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({ onImageChange }) => {
       <option value="/3_NY.jpeg">New York license</option>
     </select>
   );
-};
-
-export default ImageSelector;
+}

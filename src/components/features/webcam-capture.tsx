@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from "react";
+import { useCallback, useRef } from "react";
 import ReactWebcam from "react-webcam";
 import { toast } from "react-hot-toast";
 
@@ -54,8 +54,6 @@ export default function WebcamCapture({ onCapture }: WebcamCaptureProps) {
         screenshotFormat="image/jpeg"
       />
       <button onClick={capture}>Take photo</button>
-      {/* {imgSrc && <button onClick={capture}>Retake photo</button>} */}
-      {/* {imgSrc && <button>Continue &#8594;</button>} */}
     </div>
   );
 }
