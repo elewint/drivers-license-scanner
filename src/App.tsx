@@ -4,16 +4,22 @@ import { useMediaQuery } from "react-responsive";
 import WebcamCapture from "./components/features/webcam-capture";
 
 function App() {
+  const [currentState, setCurrentState] = useState("initial");
   const [file, setFile] = useState<string | undefined>(undefined);
-  const [webcam, setWebcam] = useState(false);
 
   const isDesktop = useMediaQuery({ minWidth: 1024 });
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       setFile(URL.createObjectURL(e.target.files[0]));
+      setCurrentState("fileUploaded");
     }
-  }
+  };
+
+  const handleWebcamCapture = (imgSrc: string) => {
+    setFile(imgSrc);
+    setCurrentState("webcamCaptured");
+  };
 
   return (
     <>
@@ -22,10 +28,10 @@ function App() {
         <input
           type="file"
           accept="image/*"
-          onChange={handleChange}
+          onChange={handleFileUpload}
           id="file-input"
         />
-        {!webcam && (
+        {currentState === "initial" && (
           <label
             htmlFor="file-input"
             tabIndex={0}
@@ -41,15 +47,38 @@ function App() {
             Upload photo
           </label>
         )}
-        {isDesktop && !webcam && (
-          <button onClick={() => setWebcam(true)}>
+        {isDesktop && currentState === "initial" && (
+          <button onClick={() => setCurrentState("webcamSelected")}>
             Take photo with webcam
           </button>
         )}
-        {file && <img src={file} alt="Uploaded image" />}
+        {currentState != "initial" && file && (
+          <img src={file} alt="Uploaded image" />
+        )}
       </div>
-      {webcam && <WebcamCapture></WebcamCapture>}
-      {webcam && <button onClick={() => setWebcam(false)}>&#8592; Back</button>}
+      {currentState === "webcamSelected" && (
+        <WebcamCapture onCapture={handleWebcamCapture}></WebcamCapture>
+      )}
+      {currentState != "initial" && (
+        <button
+          onClick={() => {
+            setFile(undefined);
+            setCurrentState("initial");
+          }}
+        >
+          &#8592; Back
+        </button>
+      )}
+      {currentState === "webcamCaptured" && (
+        <button
+          onClick={() => {
+            setFile(undefined);
+            setCurrentState("webcamSelected");
+          }}
+        >
+          Retake photo
+        </button>
+      )}
     </>
   );
 }

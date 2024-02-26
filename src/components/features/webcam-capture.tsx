@@ -2,17 +2,20 @@ import { useState, useCallback, useRef } from "react";
 import ReactWebcam from "react-webcam";
 import { toast } from "react-hot-toast";
 
-const WebcamCapture = () => {
+type WebcamCaptureProps = {
+  onCapture: (imageSrc: string) => void;
+};
+
+export default function WebcamCapture({ onCapture }: WebcamCaptureProps) {
   const webcamRef = useRef<ReactWebcam>(null);
-  const [imgSrc, setImgSrc] = useState<string | null>(null);
 
   const capture = useCallback(() => {
-    const imageSrc = webcamRef.current?.getScreenshot({
+    const imgSrc = webcamRef.current?.getScreenshot({
       width: 1920,
       height: 1080,
     });
-    setImgSrc(imageSrc);
-  }, [webcamRef, setImgSrc]);
+    if (imgSrc) onCapture(imgSrc);
+  }, [webcamRef, onCapture]);
 
   const webcamError = () =>
     toast.error(
@@ -36,33 +39,23 @@ const WebcamCapture = () => {
         gap: "1em",
       }}
     >
-      {imgSrc ? (
-        <img
-          src={imgSrc}
-          alt="Captured"
-          style={{ width: "55%", height: "auto" }}
-        />
-      ) : (
-        <ReactWebcam
-          audio={false}
-          ref={webcamRef}
-          onUserMedia={webcamSuccess}
-          onUserMediaError={webcamError}
-          videoConstraints={{
-            width: 1920,
-            height: 1080,
-          }}
-          screenshotQuality={1}
-          style={{ width: "55%", height: "auto" }}
-          imageSmoothing={false}
-          screenshotFormat="image/jpeg"
-        />
-      )}
-      {!imgSrc && <button onClick={capture}>Take photo</button>}
-      {imgSrc && <button onClick={capture}>Retake photo</button>}
-      {imgSrc && <button>Continue &#8594;</button>}
+      <ReactWebcam
+        audio={false}
+        ref={webcamRef}
+        onUserMedia={webcamSuccess}
+        onUserMediaError={webcamError}
+        videoConstraints={{
+          width: 1920,
+          height: 1080,
+        }}
+        screenshotQuality={1}
+        style={{ width: "55%", height: "auto" }}
+        imageSmoothing={false}
+        screenshotFormat="image/jpeg"
+      />
+      <button onClick={capture}>Take photo</button>
+      {/* {imgSrc && <button onClick={capture}>Retake photo</button>} */}
+      {/* {imgSrc && <button>Continue &#8594;</button>} */}
     </div>
   );
-};
-
-export default WebcamCapture;
+}
