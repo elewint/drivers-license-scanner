@@ -1,12 +1,16 @@
-import { useCallback, useRef } from "react";
+import { useCallback, useRef, useState } from "react";
 import ReactWebcam from "react-webcam";
 import { toast } from "react-hot-toast";
 
 type WebcamCaptureProps = {
   onCapture: (imageSrc: string) => void;
+  isFirstCapture: boolean;
 };
 
-export default function WebcamCapture({ onCapture }: WebcamCaptureProps) {
+export default function WebcamCapture({
+  onCapture,
+  isFirstCapture,
+}: WebcamCaptureProps) {
   const webcamRef = useRef<ReactWebcam>(null);
 
   const capture = useCallback(() => {
@@ -25,10 +29,13 @@ export default function WebcamCapture({ onCapture }: WebcamCaptureProps) {
         id: "webcam-error",
       }
     );
-  const webcamSuccess = () =>
-    toast.success("Webcam access granted! 🎉", {
-      duration: 3000,
-    });
+  const webcamSuccess = () => {
+    if (isFirstCapture) {
+      toast.success("Webcam access granted! 🎉", {
+        duration: 3000,
+      });
+    }
+  };
 
   return (
     <div

@@ -7,6 +7,7 @@ import BarcodeScanner from "./components/features/barcode-scanner";
 export default function App() {
   const [currentState, setCurrentState] = useState("initial");
   const [file, setFile] = useState<string | undefined>(undefined);
+  const [isFirstCapture, setIsFirstCapture] = useState<boolean>(true);
 
   const isDesktop = useMediaQuery({ minWidth: 1024 });
 
@@ -27,6 +28,9 @@ export default function App() {
   const handleWebcamCapture = (imgSrc: string) => {
     setFile(imgSrc);
     setCurrentState("webcamCaptured");
+    if (isFirstCapture) {
+      setIsFirstCapture(false);
+    }
   };
 
   return (
@@ -65,7 +69,10 @@ export default function App() {
           file && <img src={file} alt="Uploaded image" />}
       </div>
       {currentState === "webcamSelected" && (
-        <WebcamCapture onCapture={handleWebcamCapture}></WebcamCapture>
+        <WebcamCapture
+          onCapture={handleWebcamCapture}
+          isFirstCapture={isFirstCapture}
+        ></WebcamCapture>
       )}
       {currentState != "initial" && (
         <button
