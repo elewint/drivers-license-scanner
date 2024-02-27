@@ -3,19 +3,30 @@ import {
   Html5QrcodeSupportedFormats,
   Html5QrcodeScannerState,
 } from "html5-qrcode";
+import { toast } from "react-hot-toast";
 
 type QRDecoderProps = {
-  src: string | undefined;
+  imgSrc: string | undefined;
 };
 
-export default function BarcodeScanner({ src }: QRDecoderProps) {
+export default function BarcodeScanner({ imgSrc }: QRDecoderProps) {
   let html5QrCode: Html5Qrcode;
   const onScanSuccess = (decodedText: string) => {
     console.log(`${decodedText}`);
+    toast.success("Barcode detected! 🎉", {
+      duration: 3000,
+    });
   };
 
   const onScanError = (error: any) => {
     console.error(`Scan error = ${error}`);
+    toast.error(
+      "Encountered error:" + error?.toString() || "Unknown error 😢",
+      {
+        duration: 6000,
+        id: "scan-error",
+      }
+    );
   };
 
   const stopScanner = () => {
@@ -29,9 +40,9 @@ export default function BarcodeScanner({ src }: QRDecoderProps) {
     }
   };
 
-  const scanQRCode = (imageSrc: string) => {
+  const scanQRCode = () => {
     // Convert base64 to blob, then convert blob to File
-    const blob = base64ToBlob(imageSrc, "image/jpeg");
+    const blob = imgSrc ? base64ToBlob(imgSrc, "image/jpeg") : null;
     const file = blob
       ? new File([blob], "qr-image.jpeg", { type: blob.type })
       : null;
@@ -50,12 +61,6 @@ export default function BarcodeScanner({ src }: QRDecoderProps) {
         .finally(() => {
           stopScanner();
         });
-    }
-  };
-
-  const handleClick = () => {
-    if (src) {
-      scanQRCode(src);
     }
   };
 
@@ -89,7 +94,7 @@ export default function BarcodeScanner({ src }: QRDecoderProps) {
 
   return (
     <div>
-      <button onClick={handleClick}>Scan Barcode</button>
+      <button onClick={scanQRCode}>Scan Barcode</button>
       <div id="reader" style={{ display: "none" }}></div>
     </div>
   );
