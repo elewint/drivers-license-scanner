@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./app.css";
 import { useMediaQuery } from "react-responsive";
 import WebcamCapture from "./components/features/webcam-capture";
+import BarcodeScanner from "./components/features/barcode-scanner";
 
 function App() {
   const [currentState, setCurrentState] = useState("initial");
@@ -11,8 +12,14 @@ function App() {
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      setFile(URL.createObjectURL(e.target.files[0]));
-      setCurrentState("fileUploaded");
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        if (event.target && event.target.result) {
+          setFile(event.target.result.toString());
+          setCurrentState("fileUploaded");
+        }
+      };
+      reader.readAsDataURL(e.target.files[0]);
     }
   };
 
@@ -27,7 +34,7 @@ function App() {
       <div className="photo-buttons">
         <input
           type="file"
-          accept="image/*"
+          accept="image/jpeg, image/jpg, image/png"
           onChange={handleFileUpload}
           id="file-input"
         />
@@ -44,7 +51,7 @@ function App() {
               }
             }}
           >
-            Upload photo
+            Upload{!isDesktop && " or take"} photo
           </label>
         )}
         {isDesktop && currentState === "initial" && (
@@ -52,9 +59,9 @@ function App() {
             Take photo with webcam
           </button>
         )}
-        {currentState != "initial" && file && (
-          <img src={file} alt="Uploaded image" />
-        )}
+        {(currentState === "fileUploaded" ||
+          currentState === "webcamCaptured") &&
+          file && <img src={file} alt="Uploaded image" />}
       </div>
       {currentState === "webcamSelected" && (
         <WebcamCapture onCapture={handleWebcamCapture}></WebcamCapture>
@@ -78,6 +85,10 @@ function App() {
         >
           Retake photo
         </button>
+      )}
+      {(currentState === "fileUploaded" ||
+        currentState === "webcamCaptured") && (
+        <BarcodeScanner src={file}></BarcodeScanner>
       )}
     </>
   );
