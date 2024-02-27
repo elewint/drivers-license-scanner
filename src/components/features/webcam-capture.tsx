@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useRef } from "react";
 import ReactWebcam from "react-webcam";
 import { toast } from "react-hot-toast";
 
