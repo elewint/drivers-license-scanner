@@ -20,6 +20,7 @@ export default function App() {
         }
       };
       reader.readAsDataURL(e.target.files[0]);
+      e.target.value = "";
     }
   };
 
