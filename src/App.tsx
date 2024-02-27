@@ -88,7 +88,7 @@ function App() {
       )}
       {(currentState === "fileUploaded" ||
         currentState === "webcamCaptured") && (
-        <BarcodeScanner src={file}></BarcodeScanner>
+        <BarcodeScanner imgSrc={file}></BarcodeScanner>
       )}
     </>
   );
