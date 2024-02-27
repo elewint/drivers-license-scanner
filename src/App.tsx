@@ -4,7 +4,7 @@ import { useMediaQuery } from "react-responsive";
 import WebcamCapture from "./components/features/webcam-capture";
 import BarcodeScanner from "./components/features/barcode-scanner";
 
-function App() {
+export default function App() {
   const [currentState, setCurrentState] = useState("initial");
   const [file, setFile] = useState<string | undefined>(undefined);
 
@@ -93,5 +93,3 @@ function App() {
     </>
   );
 }
-
-export default App;
