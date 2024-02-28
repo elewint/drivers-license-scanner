@@ -1,4 +1,4 @@
-import aamva from "aamva";
+import * as aamva from "aamva";
 
 type ParseBarcodeProps = {
   barcodeData: string | undefined;
