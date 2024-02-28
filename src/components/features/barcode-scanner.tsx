@@ -20,13 +20,10 @@ export default function BarcodeScanner({ imgSrc }: QRDecoderProps) {
 
   const onScanError = (error: any) => {
     console.error(`Scan error = ${error}`);
-    toast.error(
-      "Encountered error:" + error?.toString() || "Unknown error 😢",
-      {
-        duration: 6000,
-        id: "scan-error",
-      }
-    );
+    toast.error("Barcode not detected 😢 Please try uploading another photo", {
+      duration: 7000,
+      id: "scan-error",
+    });
   };
 
   const stopScanner = () => {
