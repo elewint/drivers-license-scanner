@@ -4,7 +4,7 @@ This project is a simple web app that allows the user to upload or take a photo 
 
 ## Project Architecture
 
-Technologies used: **React + TypeScript + Vite**
+Technologies used: **React, TypeScript, Vite, and Vercel**
 
 I chose to use React and TypeScript for this project since I have enjoyed using them previously, while Vite was a new build tool that I wanted to try out. I used the `react-webcam` library for the webcam, `html5-qrcode` to implement the barcode scanner, and `aamvajs` to parse the barcode data.
 
@@ -14,9 +14,9 @@ I encountered several major obstacles during development. My first attempt invol
 
 After switching to this approach, I used `zxing.js` for scanning the barcode, but it required near-perfect conditions to correctly scan a barcode: no rotation, clear contrast, and a high-quality image. I switched to `html5-qrcode` to scan more resiliently, which made a big improvement.
 
-I also assumed that the barcode scanner performance provided by `html5-qrcode` would be consistent across all browsers, but then discovered that Chrome scanned barcodes much more reliably than Safari or any iOS browser. This was a significant issue, as I wanted the app to be accessible to as many users as possible. I eventually traced this issue down to the BarcodeDetector API, which `html5-qrcode` was set to use when it's available. Since there is no reliable polyfill for this API that supports pdf417 barcodes, I was not able to find a solution yet.
+I also assumed that the barcode scanner performance provided by `html5-qrcode` would be consistent across all browsers, but then discovered that Chrome scanned barcodes much more reliably than Safari or any iOS browser. This was a significant issue, as I wanted the app to be accessible to as many users as possible. I eventually traced this issue down to the BarcodeDetector API, which `html5-qrcode` uses when it's available. However, the BarcodeDetector API is [far from being universally supported](https://caniuse.com/?search=BarcodeDetector%20API) at this point. Since there is no reliable polyfill for this API that supports pdf417 barcodes, I was not able to find a solution yet.
 
-Another major obstacle was a parsing error that I found once I tried to host the project, which came from the `aamva` library not correctly exporting its functions. Though it's not the most elegant long-term solution, I was able to resolve the issue by manually adding a patch to the `aamva` library using the `patch-package` library.
+Another major obstacle was a parsing error that I found when I tried to host the project on Vercel, which came from the `aamva` library not correctly exporting its functions. Though it's not the most elegant long-term solution, I was able to resolve the issue by manually adding a patch to the `aamva` library using the `patch-package` library.
 
 ## Credits
 
