@@ -1,11 +1,11 @@
-import * as aamva from "aamva";
+import { pdf417 } from "aamva";
 
 type ParseBarcodeProps = {
   barcodeData: string | undefined;
 };
 
 export default function ParseBarcode({ barcodeData }: ParseBarcodeProps) {
-  const license_data = aamva?.pdf417(barcodeData);
+  const license_data = pdf417(barcodeData);
 
   const titleCase = (str: string) => {
     return str
