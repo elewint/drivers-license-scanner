@@ -3,16 +3,31 @@ import {
   Html5QrcodeSupportedFormats,
   Html5QrcodeScannerState,
 } from "html5-qrcode";
+import { useCallback } from "react";
 import { toast } from "react-hot-toast";
 
 type QRDecoderProps = {
   imgSrc: string | undefined;
+  onBarcodeFound: (decodedText: string) => void;
 };
 
-export default function BarcodeScanner({ imgSrc }: QRDecoderProps) {
+export default function BarcodeScanner({
+  imgSrc,
+  onBarcodeFound,
+}: QRDecoderProps) {
   let html5QrCode: Html5Qrcode;
+
+  const barcodeFound = useCallback(
+    (decodedText: string) => {
+      if (decodedText) {
+        onBarcodeFound(decodedText);
+      }
+    },
+    [onBarcodeFound]
+  );
+
   const onScanSuccess = (decodedText: string) => {
-    console.log(`${decodedText}`);
+    barcodeFound(decodedText);
     toast.success("Barcode detected! 🎉", {
       duration: 3000,
     });

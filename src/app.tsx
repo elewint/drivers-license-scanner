@@ -3,11 +3,13 @@ import "./app.css";
 import { useMediaQuery } from "react-responsive";
 import WebcamCapture from "./components/features/webcam-capture";
 import BarcodeScanner from "./components/features/barcode-scanner";
+import ParseBarcode from "./components/features/parse-barcode";
 
 export default function App() {
   const [currentState, setCurrentState] = useState("initial");
   const [file, setFile] = useState<string | undefined>(undefined);
   const [isFirstCapture, setIsFirstCapture] = useState<boolean>(true);
+  const [barcodeData, setBarcodeData] = useState<string | undefined>("");
 
   const isDesktop = useMediaQuery({ minWidth: 1024 });
 
@@ -31,6 +33,11 @@ export default function App() {
     if (isFirstCapture) {
       setIsFirstCapture(false);
     }
+  };
+
+  const handleBarcodeFound = (decodedText: string) => {
+    setBarcodeData(decodedText);
+    setCurrentState("barcodeFound");
   };
 
   return (
@@ -74,16 +81,6 @@ export default function App() {
           isFirstCapture={isFirstCapture}
         ></WebcamCapture>
       )}
-      {currentState != "initial" && (
-        <button
-          onClick={() => {
-            setFile(undefined);
-            setCurrentState("initial");
-          }}
-        >
-          &#8592; Back
-        </button>
-      )}
       {currentState === "webcamCaptured" && (
         <button
           onClick={() => {
@@ -96,7 +93,23 @@ export default function App() {
       )}
       {(currentState === "fileUploaded" ||
         currentState === "webcamCaptured") && (
-        <BarcodeScanner imgSrc={file}></BarcodeScanner>
+        <BarcodeScanner
+          imgSrc={file}
+          onBarcodeFound={handleBarcodeFound}
+        ></BarcodeScanner>
+      )}
+      {currentState === "barcodeFound" && barcodeData && (
+        <ParseBarcode barcodeData={barcodeData}></ParseBarcode>
+      )}
+      {currentState != "initial" && (
+        <button
+          onClick={() => {
+            setFile(undefined);
+            setCurrentState("initial");
+          }}
+        >
+          &#8592; Back
+        </button>
       )}
     </>
   );
