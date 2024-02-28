@@ -1,0 +1,12 @@
+diff --git a/node_modules/aamva/index.js b/node_modules/aamva/index.js
+index e158684..98c02f5 100644
+--- a/node_modules/aamva/index.js
++++ b/node_modules/aamva/index.js
+@@ -549,3 +549,6 @@
+   global.pdf417 = pdf417;
+ 
+ }(this));
++
++// Patched to fully export the module
++module.exports = this;
+\ No newline at end of file

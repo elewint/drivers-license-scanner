@@ -12,6 +12,7 @@
   "dependencies": {
     "aamva": "^2.0.0",
     "html5-qrcode": "^2.3.8",
+    "patch-package": "^8.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
@@ -19,6 +20,7 @@
     "react-webcam": "^7.2.0"
   },
   "devDependencies": {
+    "@types/node": "^20.11.21",
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.19",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
