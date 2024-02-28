@@ -37,10 +37,10 @@ export default function ParseBarcode({ barcodeData }: ParseBarcodeProps) {
 
   return (
     <div>
-      <h3>Full name: {getFullName()}</h3>
+      {/* <h3>Full name: {getFullName()}</h3>
       <h3>Address: {getAddress()}</h3>
       <h3>Expiration date: {getExpirationDate()}</h3>
-      <h3>ID Number: {getIDNumber()}</h3>
+      <h3>ID Number: {getIDNumber()}</h3> */}
     </div>
   );
 }
