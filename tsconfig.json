@@ -20,9 +20,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 
-    /* Required for @techstark/opencv-js */
-    "esModuleInterop": true,
-
     "typeRoots": ["node_modules/@types", "src/types"]
   },
   "include": ["src", "src/types/*.d.ts"],

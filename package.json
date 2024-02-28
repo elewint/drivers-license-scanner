@@ -10,7 +10,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@techstark/opencv-js": "^4.9.0-release.2",
     "aamva": "^2.0.0",
     "html5-qrcode": "^2.3.8",
     "react": "^18.2.0",
