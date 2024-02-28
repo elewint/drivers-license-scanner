@@ -2,7 +2,7 @@
 
 This project is a simple web app that allows the user to upload or take a photo of the back of their driver's license, scan the 2D barcode on the back, and display key information in a user-friendly format, including their name, address, and the date their license was issued. The app runs completely client-side, so no data is ever stored or transmitted. Still, it is important to note that the barcode contains a lot of personal information, so users should be cautious about where they use this app and consider testing it with an example image first.
 
-**Try out a live demo:** [drivers-license-scanner.vercel.app](https://drivers-license-scanner.vercel.app/)
+**Try out a live demo here!:** [drivers-license-scanner.vercel.app](https://drivers-license-scanner.vercel.app/)
 
 ## Project Architecture
 
