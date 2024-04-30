@@ -30,8 +30,8 @@ Many thanks to the creators of all the libraries and tools used in this project!
 
 - [x] Create basic GUI
 - [x] Add webcam
-  - [ ] Display live feed
-  - [ ] Capture and recapture images
+  - [x] Display live feed
+  - [x] Capture and recapture images
 - [x] Implement pdf417 barcode scanner
   - [x] Test with JPG and PNG formats
   - [ ] Improve accuracy on browsers without BarcodeDetector API (or find a polyfill for it)
